@@ -1,3 +1,5 @@
+#include "SFML/Graphics/Font.h"
+#include "SFML/Graphics/RenderTexture.h"
 #include "SFML/Graphics/Sprite.h"
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
@@ -56,6 +58,7 @@ int main() {
 
   // Load a font
   sfFont *font = sfFont_createFromFile("font.ttf");
+  sfFont_setSmooth(font, sfFalse);
   if (!font)
     return 1;
 
@@ -77,6 +80,19 @@ int main() {
         sfFloatRect viewport = {0.0, 0.0, (float)windowSize.x,
                                 (float)windowSize.y};
         sfRenderWindow_setView(window, sfView_createFromRect(viewport));
+        break;
+      }
+      case sfEvtKeyPressed: {
+        switch (event.key.code) {
+        case sfKeyS: // enable / disable smoothing
+            {
+                sfFont_setSmooth(font, !sfFont_isSmooth(font));
+                sfTexture_setSmooth(texture, !sfTexture_isSmooth(texture));
+                break;
+              }
+        default:
+          break;
+        }
         break;
       }
       default:
